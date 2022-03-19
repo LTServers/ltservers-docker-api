@@ -11,7 +11,7 @@ router.post("/:serverport", authMiddleware, async (req, res) => {
 	const { serverport } = req.params;
 	if (!serverport) return res.status(404).send({ message: "No server port provided" });
 
-	const rcon = await LTRcon.getRcon(parseInt(serverport));
+	const rcon = await LTRcon.getRcon(parseInt(serverport, 10));
 	const rconRes = await rcon.send(command);
 	res.send({ executed: true, response: rconRes });
 })

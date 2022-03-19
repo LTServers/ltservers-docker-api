@@ -1,7 +1,7 @@
 import { Rcon } from 'rcon-client';
 
 class LTRcon {
-	private static rcons: Array<Rcon>;
+	private static rcons: Rcon[];
 
 	private constructor() {
 	}
@@ -10,7 +10,7 @@ class LTRcon {
 		if (!LTRcon.rcons[port]) {
 			LTRcon.rcons[port] = await Rcon.connect({
 				host: "localhost",
-				port: port,
+				port,
 				password: process.env.RCONPASSWORD
 			});
 		}
