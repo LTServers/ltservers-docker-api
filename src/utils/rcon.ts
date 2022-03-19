@@ -11,7 +11,7 @@ class LTRcon {
 			LTRcon.rcons[port] = await Rcon.connect({
 				host: "localhost",
 				port: port,
-				password: "adminpbCrNPuZ"
+				password: process.env.RCONPASSWORD
 			});
 		}
 		return LTRcon.rcons[port]
