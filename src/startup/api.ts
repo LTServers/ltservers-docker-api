@@ -1,6 +1,6 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import routes from '../routes';
+import express from "express";
+import bodyParser from "body-parser";
+import routes from "../routes";
 
 export default () => {
 	const app = express();
@@ -8,6 +8,6 @@ export default () => {
 	app.use(bodyParser.json());
 	routes(app);
 
-	const port = process.env.PORT ?? 9000
-	app.listen(port, () => console.log("Listening on port " + port))
-}
+	const port = process.env.PORT ?? 9000;
+	app.listen(port, () => console.log("Listening on port " + port));
+};
