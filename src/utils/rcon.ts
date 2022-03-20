@@ -1,7 +1,7 @@
 import { Rcon } from "rcon-client";
 
 class LTRcon {
-	private static rcons: Rcon[];
+	private static rcons: Rcon[] = [];
 
 	public static async getRcon(port: number) {
 		if (!LTRcon.rcons[port]) {
