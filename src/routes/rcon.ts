@@ -13,7 +13,7 @@ router.post("/:serverport", authMiddleware, async (req, res) => {
 
 	const rcon = await LTRcon.getRcon(parseInt(serverport, 10));
 	const rconRes = await rcon.send(command);
-	res.send({ executed: true, response: rconRes });
+	res.json({ executed: true, response: rconRes });
 })
 
 export default router;
