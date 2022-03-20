@@ -6,5 +6,6 @@ const formatMiddleware: ExpressMiddleware = (req, res, next) => {
 		const newBody = JSON.stringify(body);
 		return send(newBody);
 	}
+	next();
 }
 export default formatMiddleware;
