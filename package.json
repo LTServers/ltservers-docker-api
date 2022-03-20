@@ -8,8 +8,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
-    "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
+    "dev": "nodemon --watch src -e ts,ejs --exec npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
