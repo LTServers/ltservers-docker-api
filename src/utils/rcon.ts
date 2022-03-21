@@ -10,6 +10,9 @@ class LTRcon {
 				port,
 				password: process.env.RCONPASSWORD,
 			});
+			LTRcon.rcons[port].on("end", () => {
+				delete LTRcon.rcons[port];
+			});
 		}
 		return LTRcon.rcons[port];
 	}
