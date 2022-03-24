@@ -5,7 +5,7 @@ import LTDocker from "./../utils/docker";
 const router = express.Router();
 
 router.get("/:serverid/start", authMiddleware, async (req, res) => {
-	const executed = await LTDocker.exec(req.query.serverid as string, [
+	const executed = await LTDocker.exec(req.params.serverid as string, [
 		"./gmodserver",
 		"start",
 	]);
@@ -17,7 +17,7 @@ router.get("/:serverid/start", authMiddleware, async (req, res) => {
 });
 
 router.get("/:serverid/stop", authMiddleware, async (req, res) => {
-	const executed = await LTDocker.exec(req.query.serverid as string, [
+	const executed = await LTDocker.exec(req.params.serverid as string, [
 		"./gmodserver",
 		"stop",
 	]);
@@ -29,7 +29,7 @@ router.get("/:serverid/stop", authMiddleware, async (req, res) => {
 });
 
 router.get("/:serverid/restart", authMiddleware, async (req, res) => {
-	const executed = await LTDocker.exec(req.query.serverid as string, [
+	const executed = await LTDocker.exec(req.params.serverid as string, [
 		"./gmodserver",
 		"restart",
 	]);
