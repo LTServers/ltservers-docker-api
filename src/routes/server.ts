@@ -4,6 +4,10 @@ import LTDocker from "./../utils/docker";
 
 const router = express.Router();
 
+router.get("/:serverip/connect", async (req, res) => {
+	res.redirect(`steam://connect/${req.params.serverip}`);
+});
+
 router.get("/:serverid/start", authMiddleware, async (req, res) => {
 	const executed = await LTDocker.exec(req.params.serverid as string, [
 		"./gmodserver",
