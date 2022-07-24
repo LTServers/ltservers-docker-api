@@ -1,0 +1,20 @@
+name: Run ltservers docker api
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker Build
+        run: docker build -t pjgame841/ltservers-api .
+      - name: Stop old images
+        run: docker rm $(docker stop $(docker ps -a -q --filter name=pj_ltservers_api --format="{{.ID}}"))
+        continue-on-error: true
+      - name: Start
+        run: docker run -p 9000:9000 -d --name=pj_ltservers_api pjgame841/ltservers-api
