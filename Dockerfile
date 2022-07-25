@@ -29,6 +29,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 ltservers
 
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/dist/ ./dist/
 
 USER ltservers
 
