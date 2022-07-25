@@ -17,4 +17,7 @@ jobs:
         run: docker rm $(docker stop $(docker ps -a -q --filter name=pj_ltservers_api --format="{{.ID}}"))
         continue-on-error: true
       - name: Start
-        run: docker run -p 9000:9000 -d --name=pj_ltservers_api pjgame841/ltservers-api
+        env:
+          API_KEY: '${{ secrets.API_KEY }}'
+          RCONPASSWORD: '${{ secrets.RCONPASSWORD }}'
+        run: docker run -p 9000:9000 --env API_KEY=$API_KEY --env RCONPASSWORD=$RCONPASSWORD -d --name=pj_ltservers_api pjgame841/ltservers-api
