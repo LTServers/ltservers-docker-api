@@ -70,10 +70,10 @@ class LTDocker {
 						"/home/gmodserver/gmodserver-docker/config-lgsm:/home/linuxgsm/lgsm/config-lgsm",
 					],
 					PortBindings: {
-						"27015/tcp": [{ HostPort: sv_port }],
-						"27015/udp": [{ HostPort: sv_port }],
-						"27020/udp": [{ HostPort: port }],
-						"27005/udp": [{ HostPort: cl_port }],
+						"27015/tcp": [{ HostPort: "" + sv_port }],
+						"27015/udp": [{ HostPort: "" + sv_port }],
+						"27020/udp": [{ HostPort: "" + port }],
+						"27005/udp": [{ HostPort: "" + cl_port }],
 					},
 				},
 			})
