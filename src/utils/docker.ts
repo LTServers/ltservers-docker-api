@@ -35,6 +35,8 @@ class LTDocker {
 		let exists = false;
 		const containers = await this.getDocker().listContainers({ all: true });
 		containers.forEach((container) => {
+			console.log(container.Names);
+
 			if (container.Names[0] == "gmodserver" + id) {
 				exists = true;
 			}
@@ -79,7 +81,8 @@ class LTDocker {
 			})
 			.then((container) => {
 				container.start();
-			});
+			})
+			.catch(console.log);
 
 		return true;
 	}
