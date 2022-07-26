@@ -1,4 +1,5 @@
 import express from "express";
+import * as path from "path";
 import authMiddleware from "./../middlewares/auth";
 import LTDocker from "./../utils/docker";
 import { parseDockerCompose } from "../utils/compose";
@@ -50,7 +51,7 @@ router.post("/new", authMiddleware, async (req, res) => {
 
 	await parseDockerCompose(id, sv_port, cl_port, port);
 	const container = await LTDocker.compose(
-		"../include/docker-compose.yml",
+		path.resolve(__dirname, "../include/docker-compose.yml"),
 		"gmodserver" + id
 	);
 	if (!container)

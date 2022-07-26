@@ -1,4 +1,5 @@
 import * as fs from "fs/promises";
+import * as path from "path";
 
 /*
  * sv_port: 27015
@@ -12,7 +13,7 @@ export async function parseDockerCompose(
 	port: string | number
 ) {
 	const file = await fs.readFile(
-		"../include/docker-compose-template.yml",
+		path.resolve(__dirname, "../include/docker-compose-template.yml"),
 		"utf8"
 	);
 	let finalFile = file.replace(/\$\{id\}/g, "" + id);
@@ -20,5 +21,8 @@ export async function parseDockerCompose(
 	finalFile = file.replace(/\$\{cl_port\}/g, "" + cl_port);
 	finalFile = file.replace(/\$\{port\}/g, "" + port);
 
-	await fs.writeFile("../include/docker-compose.yml", finalFile);
+	await fs.writeFile(
+		path.resolve(__dirname, "../include/docker-compose.yml"),
+		finalFile
+	);
 }
