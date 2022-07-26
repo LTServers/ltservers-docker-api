@@ -1,5 +1,6 @@
 import Docker from "dockerode";
-import DockerCompose from "dockerode-compose";
+import * as compose from "docker-compose";
+import path from "path";
 
 class LTDocker {
 	private static docker: Docker;
@@ -27,9 +28,12 @@ class LTDocker {
 		});
 	}
 
-	public static async compose(file: string, name: string) {
-		const compose = new DockerCompose(this.getDocker(), file, name);
-		return await compose.up();
+	public static async compose(id: string | number) {
+		// const compose = new DockerCompose(this.getDocker(), file, name);
+		// return await compose.up();
+		return await compose.upOne("linuxgsm" + id, {
+			cwd: path.resolve(__dirname, "../include"),
+		});
 	}
 }
 export default LTDocker;

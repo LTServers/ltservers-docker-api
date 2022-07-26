@@ -50,10 +50,7 @@ router.post("/new", authMiddleware, async (req, res) => {
 	const { id, cl_port, sv_port, port } = req.body;
 
 	await parseDockerCompose(id, sv_port, cl_port, port);
-	const container = await LTDocker.compose(
-		path.resolve(__dirname, "../include/docker-compose.yml"),
-		"gmodserver" + id
-	);
+	const container = await LTDocker.compose(id);
 	if (!container)
 		return res
 			.status(500)
