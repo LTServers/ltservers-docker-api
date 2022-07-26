@@ -45,12 +45,17 @@ router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 });
 
 router.post("/new", authMiddleware, async (req, res) => {
-	const { id, cl_port, sv_port, port } = req.body;
+	const { id } = req.body;
 
-	if (!id || !cl_port || !sv_port || !port)
+	if (!id)
 		return res
 			.status(400)
 			.json({ valid: false, message: "Missing parameters !" });
+
+	const sv_port = 27100 + id;
+	const cl_port = 27000 + id;
+	const port = 27200 + id;
+
 	const did = await LTDocker.create(id, sv_port, cl_port, port);
 	if (!did)
 		return res.status(400).json({
