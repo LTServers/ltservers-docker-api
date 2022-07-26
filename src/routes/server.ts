@@ -1,5 +1,4 @@
 import express from "express";
-import * as path from "path";
 import authMiddleware from "./../middlewares/auth";
 import LTDocker from "./../utils/docker";
 import { parseDockerCompose } from "../utils/compose";
