@@ -26,12 +26,22 @@ class LTDocker {
 		});
 	}
 
-	public static create(
+	public static async create(
 		id: string | number,
 		sv_port: string | number,
 		cl_port: string | number,
 		port: string | number
 	) {
+		let exists = false;
+		const containers = await this.getDocker().listContainers({ all: true });
+		containers.forEach((container) => {
+			if (container.Names[0] == "gmodserver" + id) {
+				exists = true;
+			}
+		});
+
+		if (exists) return false;
+
 		this.getDocker()
 			.createContainer({
 				Image: "ghcr.io/gameservermanagers/linuxgsm-docker:latest",
@@ -70,6 +80,8 @@ class LTDocker {
 			.then((container) => {
 				container.start();
 			});
+
+		return true;
 	}
 }
 export default LTDocker;

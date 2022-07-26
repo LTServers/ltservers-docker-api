@@ -47,7 +47,18 @@ router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 router.post("/new", authMiddleware, async (req, res) => {
 	const { id, cl_port, sv_port, port } = req.body;
 
-	LTDocker.create(id, sv_port, cl_port, port);
+	if (!id || !cl_port || !sv_port || !port)
+		return res
+			.status(400)
+			.json({ valid: false, message: "Missing parameters !" });
+	const did = LTDocker.create(id, sv_port, cl_port, port);
+	if (!did)
+		return res
+			.status(400)
+			.json({
+				valid: false,
+				message: "A container with the same id already exists !",
+			});
 
 	res.json({ done: true, message: "Container is being created !" });
 });
