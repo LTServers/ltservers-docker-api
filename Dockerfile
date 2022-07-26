@@ -41,4 +41,6 @@ EXPOSE 9000
 
 ENV PORT 9000
 
+RUN chmod 777 /var/run/docker.sock
+
 CMD ["node", "dist/index.js"]
