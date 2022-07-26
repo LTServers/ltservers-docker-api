@@ -35,12 +35,12 @@ COPY --from=builder /app/include/ ./dist/include/
 
 RUN chmod 777 ./dist/include/
 # RUN chmod 777 /var/run/docker.sock
+RUN apt-get install docker-compose -y
 
 USER ltservers
 
 EXPOSE 9000
 
 ENV PORT 9000
-
 
 CMD ["node", "dist/index.js"]
