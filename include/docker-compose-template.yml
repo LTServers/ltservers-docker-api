@@ -1,7 +1,9 @@
 version: '3.4'
 services:
   linuxgsm${id}:
-    image: "ghcr.io/gameservermanagers/linuxgsm-docker:latest"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: gmodserver${id}
     environment:
       - GAMESERVER=gmodserver
