@@ -31,7 +31,7 @@ RUN adduser --system --uid 1001 ltservers
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/dist/ ./dist/
-COPY include/ ./
+COPY include/ ./dist/
 
 USER ltservers
 
