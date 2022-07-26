@@ -34,6 +34,7 @@ COPY --from=builder /app/dist/ ./dist/
 COPY --from=builder /app/include/ ./dist/include/
 
 RUN chmod 777 ./dist/include/
+# RUN chmod 777 /var/run/docker.sock
 
 USER ltservers
 
@@ -41,6 +42,5 @@ EXPOSE 9000
 
 ENV PORT 9000
 
-RUN chmod 777 /var/run/docker.sock
 
 CMD ["node", "dist/index.js"]
