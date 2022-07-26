@@ -1,4 +1,5 @@
 import Docker from "dockerode";
+import DockerCompose from "dockerode-compose";
 
 class LTDocker {
 	private static docker: Docker;
@@ -24,6 +25,11 @@ class LTDocker {
 				reject(e);
 			}
 		});
+	}
+
+	public static async compose(file: string, name: string) {
+		const compose = new DockerCompose(this.getDocker(), file, name);
+		return await compose.up();
 	}
 }
 export default LTDocker;
