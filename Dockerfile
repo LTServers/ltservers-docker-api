@@ -31,10 +31,6 @@ RUN adduser --system --uid 1001 ltservers
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/dist/ ./dist/
-COPY --from=builder /app/include/ ./dist/include/
-
-RUN chmod 777 ./dist/include/
-# RUN chmod 777 /var/run/docker.sock
 
 USER ltservers
 

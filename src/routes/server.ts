@@ -1,7 +1,6 @@
 import express from "express";
 import authMiddleware from "./../middlewares/auth";
 import LTDocker from "./../utils/docker";
-import { parseDockerCompose } from "../utils/compose";
 
 const router = express.Router();
 
@@ -48,14 +47,9 @@ router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 router.post("/new", authMiddleware, async (req, res) => {
 	const { id, cl_port, sv_port, port } = req.body;
 
-	await parseDockerCompose(id, sv_port, cl_port, port);
-	const container = await LTDocker.compose(id);
-	if (!container)
-		return res
-			.status(500)
-			.send({ message: "Error while creating container !" });
+	LTDocker.create(id, sv_port, cl_port, port);
 
-	res.json({ done: true, message: "Container created !" });
+	res.json({ done: true, message: "Container is being created !" });
 });
 
 export default router;

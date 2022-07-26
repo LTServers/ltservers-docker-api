@@ -1,6 +1,4 @@
 import Docker from "dockerode";
-import DockerCompose from "dockerode-compose";
-import path from "path";
 
 class LTDocker {
 	private static docker: Docker;
@@ -28,13 +26,48 @@ class LTDocker {
 		});
 	}
 
-	public static async compose(id: string | number) {
-		const compose = new DockerCompose(
-			this.getDocker(),
-			path.resolve(__dirname, "../include/docker-compose.yml"),
-			"linuxgsm" + id
-		);
-		return await compose.up();
+	public static async create(
+		id: string | number,
+		sv_port: string | number,
+		cl_port: string | number,
+		port: string | number
+	) {
+		const container = await this.getDocker().createContainer({
+			Image: "ghcr.io/gameservermanagers/linuxgsm-docker:latest",
+			name: "gmodserver" + id,
+			Env: [
+				"GAMESERVER=gmodserver",
+				"LGSM_GITHUBUSER=GameServerManagers",
+				"LGSM_GITHUBREPO=LinuxGSM",
+				"LGSM_GITHUBBRANCH=master",
+			],
+			ExposedPorts: {
+				"27015/tcp": {},
+				"27015/udp": {},
+				"27020/udp": {},
+				"27005/udp": {},
+			},
+			Volumes: {
+				"/home/linuxgsm/serverfiles": {},
+				"/home/linuxgsm/log": {},
+				"/home/linuxgsm/lgsm/config-lgsm": {},
+			},
+			HostConfig: {
+				Binds: [
+					"/home/gmodserver/gmodserver-docker/serverfiles:/home/linuxgsm/serverfiles",
+					"/home/gmodserver/gmodserver-docker/log:/home/linuxgsm/log",
+					"/home/gmodserver/gmodserver-docker/config-lgsm:/home/linuxgsm/lgsm/config-lgsm",
+				],
+				PortBindings: {
+					"27015/tcp": [{ HostPort: sv_port }],
+					"27015/udp": [{ HostPort: sv_port }],
+					"27020/udp": [{ HostPort: port }],
+					"27005/udp": [{ HostPort: cl_port }],
+				},
+			},
+		});
+
+		return container;
 	}
 }
 export default LTDocker;
