@@ -17,9 +17,9 @@ export async function parseDockerCompose(
 		"utf8"
 	);
 	let finalFile = file.replace(/\$\{id\}/g, "" + id);
-	finalFile = file.replace(/\$\{sv_port\}/g, "" + sv_port);
-	finalFile = file.replace(/\$\{cl_port\}/g, "" + cl_port);
-	finalFile = file.replace(/\$\{port\}/g, "" + port);
+	finalFile = finalFile.replace(/\$\{sv_port\}/g, "" + sv_port);
+	finalFile = finalFile.replace(/\$\{cl_port\}/g, "" + cl_port);
+	finalFile = finalFile.replace(/\$\{port\}/g, "" + port);
 
 	await fs.writeFile(
 		path.resolve(__dirname, "../include/docker-compose.yml"),
