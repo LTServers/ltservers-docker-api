@@ -35,7 +35,6 @@ COPY --from=builder /app/include/ ./dist/include/
 
 RUN chmod 777 ./dist/include/
 # RUN chmod 777 /var/run/docker.sock
-RUN apt-get install docker-compose -y
 
 USER ltservers
 
