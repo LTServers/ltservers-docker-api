@@ -51,14 +51,12 @@ router.post("/new", authMiddleware, async (req, res) => {
 		return res
 			.status(400)
 			.json({ valid: false, message: "Missing parameters !" });
-	const did = LTDocker.create(id, sv_port, cl_port, port);
+	const did = await LTDocker.create(id, sv_port, cl_port, port);
 	if (!did)
-		return res
-			.status(400)
-			.json({
-				valid: false,
-				message: "A container with the same id already exists !",
-			});
+		return res.status(400).json({
+			valid: false,
+			message: "A container with the same id already exists !",
+		});
 
 	res.json({ done: true, message: "Container is being created !" });
 });
