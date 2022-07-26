@@ -45,13 +45,14 @@ router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 });
 
 router.post("/new", authMiddleware, async (req, res) => {
-	const { id } = req.body;
+	const { bid } = req.body;
 
-	if (!id)
+	if (!bid)
 		return res
 			.status(400)
 			.json({ valid: false, message: "Missing parameters !" });
 
+	const id = parseInt(bid);
 	const sv_port = 27100 + id;
 	const cl_port = 27000 + id;
 	const port = 27200 + id;
