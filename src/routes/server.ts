@@ -45,7 +45,7 @@ router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 });
 
 router.post("/new", authMiddleware, async (req, res) => {
-	const { bid } = req.body;
+	const { id: bid } = req.body;
 
 	if (!bid)
 		return res
