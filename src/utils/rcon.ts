@@ -7,7 +7,7 @@ class LTRcon {
 		if (!LTRcon.rcons[port]) {
 			try {
 				LTRcon.rcons[port] = await Rcon.connect({
-					host: "localhost",
+					host: process.env.IPADDRESS,
 					port,
 					password: process.env.RCONPASSWORD,
 				});
