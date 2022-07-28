@@ -9,10 +9,10 @@ router.get("/:serverip/connect", async (req, res) => {
 });
 
 router.get("/:serverid/start", authMiddleware, async (req, res) => {
-	const executed = await LTDocker.exec(req.params.serverid as string, [
-		"./gmodserver",
-		"start",
-	]);
+	const executed = await LTDocker.exec(
+		("gmodserver" + req.params.serverid) as string,
+		["./gmodserver", "start"]
+	);
 	if (!executed)
 		return res
 			.status(500)
@@ -21,10 +21,10 @@ router.get("/:serverid/start", authMiddleware, async (req, res) => {
 });
 
 router.get("/:serverid/stop", authMiddleware, async (req, res) => {
-	const executed = await LTDocker.exec(req.params.serverid as string, [
-		"./gmodserver",
-		"stop",
-	]);
+	const executed = await LTDocker.exec(
+		("gmodserver" + req.params.serverid) as string,
+		["./gmodserver", "stop"]
+	);
 	if (!executed)
 		return res
 			.status(500)
@@ -33,10 +33,10 @@ router.get("/:serverid/stop", authMiddleware, async (req, res) => {
 });
 
 router.get("/:serverid/restart", authMiddleware, async (req, res) => {
-	const executed = await LTDocker.exec(req.params.serverid as string, [
-		"./gmodserver",
-		"restart",
-	]);
+	const executed = await LTDocker.exec(
+		("gmodserver" + req.params.serverid) as string,
+		["./gmodserver", "restart"]
+	);
 	if (!executed)
 		return res
 			.status(500)
