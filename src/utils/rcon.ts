@@ -5,11 +5,17 @@ class LTRcon {
 
 	public static async getRcon(port: number) {
 		if (!LTRcon.rcons[port]) {
-			LTRcon.rcons[port] = await Rcon.connect({
-				host: "localhost",
-				port,
-				password: process.env.RCONPASSWORD,
-			});
+			try {
+				LTRcon.rcons[port] = await Rcon.connect({
+					host: "localhost",
+					port,
+					password: process.env.RCONPASSWORD,
+				});
+			} catch (e) {
+				console.log(e.code == "ECONNREFUSED" ? "Rcon server not running" : e);
+				return null;
+			}
+
 			LTRcon.rcons[port].on("end", () => {
 				delete LTRcon.rcons[port];
 			});
