@@ -74,7 +74,7 @@ router.post("/new", authMiddleware, async (req, res) => {
 	if (!bid)
 		return res
 			.status(400)
-			.json({ valid: false, message: "Missing parameters !" });
+			.json({ valid: false, message: "Missing 'id' in body !" });
 
 	const id = parseInt(bid);
 	const sv_port = 27100 + id;

@@ -45,15 +45,20 @@ class LTDocker {
 		cl_port: string | number,
 		port: string | number
 	) {
-		let exists = false;
-		const containers = await this.getDocker().listContainers({ all: true });
-		containers.forEach((container) => {
-			if (container.Names[0] == "/gmodserver" + id) {
-				exists = true;
-			}
-		});
+		try {
+			let exists = false;
+			const containers = await this.getDocker().listContainers({ all: true });
+			containers.forEach((container) => {
+				if (container.Names[0] == "/gmodserver" + id) {
+					exists = true;
+				}
+			});
 
-		if (exists) return false;
+			if (exists) return false;
+		} catch (e) {
+			console.log("Server creation error !", e);
+			return false;
+		}
 
 		this.getDocker()
 			.createContainer({
