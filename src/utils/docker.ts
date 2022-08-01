@@ -13,13 +13,26 @@ class LTDocker {
 	}
 
 	public static exec(containerId: string, cmds: string[]) {
-		return new Promise((resolve, reject) => {
+		return new Promise<string[]>((resolve, reject) => {
 			try {
 				const container = this.getDocker().getContainer(containerId);
-				container.exec({ Cmd: cmds }).then(async (exec) => {
-					await exec.start({});
-					resolve(true);
-				});
+				container
+					.exec({ Cmd: cmds, AttachStdin: true, AttachStdout: true })
+					.then(async (exec) => {
+						exec.start({ hijack: true, stdin: true }, function (err, stream) {
+							if (err) {
+								reject(err);
+							}
+
+							const datas: string[] = [];
+							stream.on("data", (data) => {
+								datas.push(data);
+							});
+							stream.on("end", () => {
+								resolve(datas);
+							});
+						});
+					});
 			} catch (e) {
 				reject(e);
 			}
@@ -78,6 +91,9 @@ class LTDocker {
 				},
 			})
 			.then((container) => {
+				this.getDocker()
+					.getNetwork("gmodnetwork")
+					.connect({ Container: "gmodserver" + id });
 				container.start();
 			})
 			.catch(console.log);

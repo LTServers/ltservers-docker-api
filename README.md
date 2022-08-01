@@ -1,2 +1,2 @@
 # ltservers-docker-api
-LTServer's API to speak with docker
+LTServer's API to speak with docker & gmod rcon

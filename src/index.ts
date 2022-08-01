@@ -8,5 +8,4 @@ startup();
 /*
 API_KEY -- API KEY secret to connect to the API
 RCONPASSWORD -- rcon password set on the gmod servers
-IPADDRESS -- ip address of the gmod servers
 */

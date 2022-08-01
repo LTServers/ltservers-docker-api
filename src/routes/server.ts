@@ -1,6 +1,7 @@
 import express from "express";
 import authMiddleware from "./../middlewares/auth";
 import LTDocker from "./../utils/docker";
+import LTRcon from "./../utils/rcon";
 
 const router = express.Router();
 
@@ -42,6 +43,29 @@ router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 			.status(500)
 			.send({ message: "Error while sending command to docker !" });
 	res.json({ executed, message: "Restarting..." });
+});
+
+router.post("/:serverid/rcon", authMiddleware, async (req, res) => {
+	const { serverid } = req.params;
+	if (!serverid)
+		return res
+			.status(400)
+			.json({ executed: false, message: "No server id provided" });
+
+	const { command } = req.body;
+	if (!command)
+		return res
+			.status(400)
+			.json({ executed: false, message: "No command provided" });
+
+	const rcon = await LTRcon.getRcon(parseInt(serverid));
+	if (!rcon)
+		return res
+			.status(404)
+			.json({ executed: false, message: "Rcon server not running" });
+
+	const rconRes = await rcon.send(command);
+	res.json({ executed: true, message: rconRes });
 });
 
 router.post("/new", authMiddleware, async (req, res) => {
