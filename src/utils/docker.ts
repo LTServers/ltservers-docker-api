@@ -95,11 +95,11 @@ class LTDocker {
 					},
 				},
 			})
-			.then((container) => {
+			.then(() => {
 				this.getDocker()
 					.getNetwork("gmodnetwork")
 					.connect({ Container: "gmodserver" + id });
-				container.start();
+				// container.start();
 			})
 			.catch(console.log);
 
