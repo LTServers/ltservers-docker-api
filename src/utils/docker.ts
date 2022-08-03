@@ -100,7 +100,13 @@ class LTDocker {
 					.getNetwork("gmodnetwork")
 					.connect({ Container: "gmodserver" + id });
 				await container.start();
-				this.exec("gmodserver" + id, ["mv", "gmodserver", "gmodserver-" + id]);
+				console.log(
+					await this.exec("gmodserver" + id, [
+						"mv",
+						"gmodserver",
+						"gmodserver-" + id,
+					])
+				);
 			})
 			.catch(console.log);
 
