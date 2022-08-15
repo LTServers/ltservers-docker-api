@@ -100,13 +100,15 @@ class LTDocker {
 					.getNetwork("gmodnetwork")
 					.connect({ Container: "gmodserver" + id });
 				await container.start();
-				console.log(
+				// create fake execs to setup a unique config for this server
+				// all the files are shared, so each server can't have its own config
+				// usefull to set a unique server hostname, and then get it in gmod to identify the server
+				for (let i = 0; i < id; i++) {
 					await this.exec("gmodserver" + id, [
-						"mv",
-						"gmodserver",
-						"gmodserver-" + id,
-					])
-				);
+						"touch",
+						"gmodserver" + (id != 0 ? "-" + i : ""),
+					]);
+				}
 			})
 			.catch(console.log);
 
