@@ -106,7 +106,7 @@ class LTDocker {
 				for (let i = 0; i < id; i++) {
 					await this.exec("gmodserver" + id, [
 						"touch",
-						"gmodserver" + (i != 0 ? "-" + i : ""),
+						"gmodserver" + (i != 0 ? "-" + (i + 1) : ""),
 					]);
 				}
 			})
