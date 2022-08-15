@@ -25,8 +25,8 @@ class LTDocker {
 							}
 
 							const datas: string[] = [];
-							stream.on("data", (data) => {
-								datas.push(data);
+							stream.on("data", (data: Buffer) => {
+								datas.push(data.toString());
 							});
 							stream.on("end", () => {
 								resolve(datas);
