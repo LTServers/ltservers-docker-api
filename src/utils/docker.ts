@@ -62,7 +62,8 @@ class LTDocker {
 
 		this.getDocker()
 			.createContainer({
-				Image: "ghcr.io/gameservermanagers/linuxgsm-docker:latest",
+				// Image: "ghcr.io/gameservermanagers/linuxgsm-docker:latest",
+				Image: "pjgame841/lgsm:latest",
 				name: "gmodserver" + id,
 				Env: [
 					"GAMESERVER=gmodserver",
