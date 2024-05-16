@@ -16,13 +16,15 @@ class LTDocker {
 		return new Promise<string[]>((resolve, reject) => {
 			try {
 				const container = this.getDocker().getContainer(containerId);
-				container
+				void container
 					.exec({ Cmd: cmds, AttachStdin: true, AttachStdout: true })
-					.then(async (exec) => {
+					.then((exec) => {
 						exec.start({ hijack: true, stdin: true }, function (err, stream) {
 							if (err) {
 								reject(err);
 							}
+
+							if (!stream) return reject("No stream !");
 
 							const datas: string[] = [];
 							stream.on("data", (data: Buffer) => {
@@ -40,10 +42,10 @@ class LTDocker {
 	}
 
 	public static async create(
-		id: string | number,
+		id: number,
 		sv_port: string | number,
 		cl_port: string | number,
-		port: string | number
+		port: string | number,
 	) {
 		try {
 			let exists = false;
@@ -97,9 +99,10 @@ class LTDocker {
 				},
 			})
 			.then(async (container) => {
-				this.getDocker()
+				await this.getDocker()
 					.getNetwork("gmodnetwork")
 					.connect({ Container: "gmodserver" + id });
+
 				await container.start();
 				// create fake execs to setup a unique config for this server
 				// all the files are shared, so each server can't have its own config

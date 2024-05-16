@@ -9,9 +9,10 @@ class LTRcon {
 				LTRcon.rcons[serverid] = await Rcon.connect({
 					host: "gmodserver" + serverid, // need to docker network connect this container to the gmodserver network
 					port: 27015,
-					password: process.env.RCONPASSWORD,
+					password: process.env.RCONPASSWORD ?? "",
 				});
 			} catch (e) {
+				// @ts-expect-error Error handling
 				console.log(e.code == "ECONNREFUSED" ? "Rcon server not running" : e);
 				return null;
 			}

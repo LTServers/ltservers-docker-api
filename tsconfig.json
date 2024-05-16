@@ -1,21 +1,14 @@
 {
+	"extends": "@tsconfig/node20/tsconfig.json",
 	"compilerOptions": {
-			"module": "commonjs",
-			"esModuleInterop": true,
-			"target": "es6",
-			"noImplicitAny": true,
-			"moduleResolution": "node",
-			"sourceMap": true,
-			"outDir": "dist",
-			"baseUrl": ".",
-			"paths": {
-					"*": [
-							"node_modules/*"
-					]
-			}
+		"resolveJsonModule": true,
+		"outDir": "./dist",
+		"module": "Node16",
+		"esModuleInterop": true
 	},
 	"include": [
-			"src/**/*",
-			"desc.d.ts"
-	]
+		"src/**/*",
+		"desc.d.ts"
+	],
+	"exclude": ["node_modules", "dist"]
 }
