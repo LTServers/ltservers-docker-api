@@ -2,7 +2,7 @@ import express from "express";
 import authMiddleware from "./../middlewares/auth";
 import LTDocker from "./../utils/docker";
 import LTRcon from "./../utils/rcon";
-import { formatExec } from "./../utils/gmodserver";
+import { formatExec } from "../utils/gmodserver";
 
 const router = express.Router();
 
@@ -96,7 +96,7 @@ router.post("/new", authMiddleware, async (req, res) => {
 	if (!bid)
 		return res
 			.status(400)
-			.json({ valid: false, message: "Missing 'id' in body !" });
+			.json({ executed: false, message: "Missing 'id' in body !" });
 
 	const id = parseInt(bid);
 	const sv_port = 27100 + id;
@@ -106,11 +106,11 @@ router.post("/new", authMiddleware, async (req, res) => {
 	const did = await LTDocker.create(id, sv_port, cl_port, port);
 	if (!did)
 		return res.status(400).json({
-			valid: false,
+			executed: false,
 			message: "A container with the same id already exists !",
 		});
 
-	res.json({ done: true, message: "Container is being created !" });
+	res.json({ executed: true, message: "Container is being created !" });
 });
 
 export default router;
