@@ -65,14 +65,8 @@ class LTDocker {
 		this.getDocker()
 			.createContainer({
 				// Image: "ghcr.io/gameservermanagers/linuxgsm-docker:latest",
-				Image: "pjgame841/lgsm:latest",
+				Image: "gameservermanagers/gameserver:gmod",
 				name: "gmodserver" + id,
-				Env: [
-					"GAMESERVER=gmodserver",
-					"LGSM_GITHUBUSER=GameServerManagers",
-					"LGSM_GITHUBREPO=LinuxGSM",
-					"LGSM_GITHUBBRANCH=master",
-				],
 				ExposedPorts: {
 					"27015/tcp": {},
 					"27015/udp": {},
@@ -85,6 +79,9 @@ class LTDocker {
 					"/home/linuxgsm/lgsm/config-lgsm": {},
 				},
 				HostConfig: {
+					RestartPolicy: {
+						Name: "unless-stopped",
+					},
 					Binds: [
 						"/home/gmodserver/gmodserver-docker/serverfiles:/home/linuxgsm/serverfiles",
 						"/home/gmodserver/gmodserver-docker/log:/home/linuxgsm/log",

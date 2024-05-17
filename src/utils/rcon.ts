@@ -12,8 +12,7 @@ class LTRcon {
 					password: process.env.RCONPASSWORD ?? "",
 				});
 			} catch (e) {
-				// @ts-expect-error Error handling
-				console.log(e.code == "ECONNREFUSED" ? "Rcon server not running" : e);
+				console.log("RCON ERROR", e);
 				return null;
 			}
 
