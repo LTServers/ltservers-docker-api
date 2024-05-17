@@ -62,7 +62,7 @@ class LTDocker {
 			return false;
 		}
 
-		this.getDocker()
+		const container = await this.getDocker()
 			.createContainer({
 				// Image: "ghcr.io/gameservermanagers/linuxgsm-docker:latest",
 				Image: "gameservermanagers/gameserver:gmod",
@@ -74,18 +74,14 @@ class LTDocker {
 					"27005/udp": {},
 				},
 				Volumes: {
-					"/home/linuxgsm/serverfiles": {},
-					"/home/linuxgsm/log": {},
-					"/home/linuxgsm/lgsm/config-lgsm": {},
+					"/data": {},
 				},
 				HostConfig: {
 					RestartPolicy: {
 						Name: "unless-stopped",
 					},
 					Binds: [
-						"/home/gmodserver/gmodserver-docker/serverfiles:/home/linuxgsm/serverfiles",
-						"/home/gmodserver/gmodserver-docker/log:/home/linuxgsm/log",
-						"/home/gmodserver/gmodserver-docker/config-lgsm:/home/linuxgsm/lgsm/config-lgsm",
+						(process.env.GMODSERVER_DATA_PATH ?? "/data") + ":/data",
 					],
 					PortBindings: {
 						"27015/tcp": [{ HostPort: "" + sv_port }],
@@ -94,24 +90,26 @@ class LTDocker {
 						"27005/udp": [{ HostPort: "" + cl_port }],
 					},
 				},
-			})
-			.then(async (container) => {
-				await this.getDocker()
-					.getNetwork("gmodnetwork")
-					.connect({ Container: "gmodserver" + id });
+			}).catch((e) => {
+				console.log("Error while creating container !", e);
+				return false;
+			});
+		if (typeof container == "boolean") return false;
 
-				await container.start();
-				// create fake execs to setup a unique config for this server
-				// all the files are shared, so each server can't have its own config
-				// usefull to set a unique server hostname, and then get it in gmod to identify the server
-				for (let i = 0; i < id; i++) {
-					await this.exec("gmodserver" + id, [
-						"touch",
-						"gmodserver" + (i != 0 ? "-" + (i + 1) : ""),
-					]);
-				}
-			})
-			.catch(console.log);
+		await this.getDocker()
+			.getNetwork("gmodnetwork")
+			.connect({ Container: "gmodserver" + id });
+
+		await container.start();
+		// create fake execs to setup a unique config for this server
+		// all the files are shared, so each server can't have its own config
+		// usefull to set a unique server hostname, and then get it in gmod to identify the server
+		for (let i = 0; i < id; i++) {
+			await this.exec("gmodserver" + id, [
+				"touch",
+				"gmodserver" + (i != 0 ? "-" + (i + 1) : ""),
+			]);
+		}
 
 		return true;
 	}
