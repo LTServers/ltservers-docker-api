@@ -106,6 +106,9 @@ class LTDocker {
 		// usefull to set a unique server hostname, and then get it in gmod to identify the server
 		for (let i = 0; i < id; i++) {
 			await this.exec("gmodserver" + id, [
+				"su",
+				"linuxgsm",
+				"&&",
 				"touch",
 				"gmodserver" + (i != 0 ? "-" + (i + 1) : ""),
 			]);
