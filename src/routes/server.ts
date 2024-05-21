@@ -113,4 +113,15 @@ router.post("/new", authMiddleware, async (req, res) => {
 	res.json({ executed: true, message: "Container is being created !" });
 });
 
+router.delete("/:id", authMiddleware, async (req, res) => {
+	const { id } = req.params;
+	if (!id || !parseInt(id))
+		return res
+			.status(400)
+			.json({ executed: false, message: "No id provided" });
+
+	await LTDocker.remove(parseInt(id));
+	res.json({ executed: true, message: "Container removed" });
+});
+
 export default router;

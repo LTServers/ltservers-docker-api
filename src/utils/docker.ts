@@ -116,5 +116,11 @@ class LTDocker {
 
 		return true;
 	}
+
+	public static async remove(id: number) {
+		const container = this.getDocker().getContainer("gmodserver" + id);
+		await container.stop();
+		await container.remove();
+	}
 }
 export default LTDocker;
