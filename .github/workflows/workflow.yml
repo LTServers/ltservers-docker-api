@@ -24,4 +24,4 @@ jobs:
           API_KEY: '${{ secrets.API_KEY }}'
           RCONPASSWORD: '${{ secrets.RCONPASSWORD }}'
           GMODSERVER_DATA_PATH: '${{ vars.GMODSERVER_DATA_PATH }}'
-        run: docker run -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock --network gmodnetwork --env GMODSERVER_DATA_PATH=$GMODSERVER_DATA_PATH --env API_KEY=$API_KEY --env RCONPASSWORD=$RCONPASSWORD -d --name=pj_ltservers_api pjgame841/ltservers-api
+        run: docker run -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock --network gmodnetwork --env GMODSERVER_DATA_PATH=$GMODSERVER_DATA_PATH --env API_KEY=$API_KEY --env RCONPASSWORD=$RCONPASSWORD -d --restart unless-stopped --name=pj_ltservers_api pjgame841/ltservers-api

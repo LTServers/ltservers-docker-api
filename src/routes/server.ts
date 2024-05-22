@@ -48,6 +48,18 @@ router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 	res.json({ executed, message: "Restarting..." });
 });
 
+router.get("/:serverid/status", authMiddleware, async (req, res) => {
+	const { serverid } = req.params;
+
+	const rcon = await LTRcon.getRcon(parseInt(serverid));
+	if (!rcon)
+		return res
+			.status(404)
+			.json({ executed: false, message: "Rcon server not running" });
+
+	res.json({ executed: true, message: "Server is running" });
+});
+
 router.post("/:serverid/rcon", authMiddleware, async (req, res) => {
 	const { serverid } = req.params;
 	if (!serverid)
