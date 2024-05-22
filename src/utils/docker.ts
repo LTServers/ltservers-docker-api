@@ -17,7 +17,7 @@ class LTDocker {
 			try {
 				const container = this.getDocker().getContainer(containerId);
 				void container
-					.exec({ Cmd: cmds, AttachStdin: true, AttachStdout: true })
+					.exec({ Cmd: cmds, AttachStdin: true, AttachStdout: true, User: "linuxgsm" })
 					.then((exec) => {
 						exec.start({ hijack: true, stdin: true }, function (err, stream) {
 							if (err) {
