@@ -2,7 +2,6 @@ import express from "express";
 import authMiddleware from "./../middlewares/auth";
 import LTDocker from "./../utils/docker";
 import LTRcon from "./../utils/rcon";
-import { formatExec } from "../utils/gmodserver";
 
 const router = express.Router();
 
@@ -12,15 +11,9 @@ router.get("/:serverip/connect", (req, res) => {
 
 router.get("/:serverid/start", authMiddleware, async (req, res) => {
 	const { serverid } = req.params;
-	const exec = formatExec(serverid);
-	if (!exec) {
-		return res
-			.status(400)
-			.json({ executed: false, message: "Invalid server id !" });
-	}
 
 	const executed = await LTDocker.exec("gmodserver" + serverid, [
-		exec,
+		"./gmodserver",
 		"start",
 	]);
 	if (!executed)
@@ -32,14 +25,8 @@ router.get("/:serverid/start", authMiddleware, async (req, res) => {
 
 router.get("/:serverid/stop", authMiddleware, async (req, res) => {
 	const { serverid } = req.params;
-	const exec = formatExec(serverid);
-	if (!exec) {
-		return res
-			.status(400)
-			.json({ executed: false, message: "Invalid server id !" });
-	}
 
-	const executed = await LTDocker.exec("gmodserver" + serverid, [exec, "stop"]);
+	const executed = await LTDocker.exec("gmodserver" + serverid, ["./gmodserver", "stop"]);
 	if (!executed)
 		return res
 			.status(500)
@@ -49,15 +36,9 @@ router.get("/:serverid/stop", authMiddleware, async (req, res) => {
 
 router.get("/:serverid/restart", authMiddleware, async (req, res) => {
 	const { serverid } = req.params;
-	const exec = formatExec(serverid);
-	if (!exec) {
-		return res
-			.status(400)
-			.json({ executed: false, message: "Invalid server id !" });
-	}
 
 	const executed = await LTDocker.exec("gmodserver" + serverid, [
-		exec,
+		"./gmodserver",
 		"restart",
 	]);
 	if (!executed)
