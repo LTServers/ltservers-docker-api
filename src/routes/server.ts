@@ -5,6 +5,20 @@ import LTRcon from "./../utils/rcon";
 
 const router = express.Router();
 
+router.get("/status", authMiddleware, async (req, res) => {
+	const containers = (await LTDocker.list())
+		.map((container) => container.Names[0])
+		.map((name) => name.replace("/gmodserver", ""));
+
+	const serversStatus: {[key: string]: boolean} = {};
+	for (const containerId of containers) {
+		const rcon = await LTRcon.getRcon(parseInt(containerId));
+		serversStatus[containerId] = !!rcon;
+	}
+
+	res.json({ executed: true, data: serversStatus });
+});
+
 router.get("/:serverip/connect", (req, res) => {
 	res.redirect(`steam://connect/${req.params.serverip}`);
 });

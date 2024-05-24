@@ -122,5 +122,11 @@ class LTDocker {
 		await container.stop();
 		await container.remove();
 	}
+
+	public static async list() {
+		const containers = await this.getDocker().listContainers({ all: true });
+		return containers
+			.filter((container) => container.Names[0].includes("gmodserver"));
+	}
 }
 export default LTDocker;
